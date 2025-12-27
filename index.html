@@ -241,7 +241,7 @@
 
         .download-embed {
             width: 100%;
-            height: 400px; /* Increased for better button display */
+            height: 500px; /* Bigger for full buttons */
             border: none;
             background: var(--glass-bg);
             border-radius: 15px;
@@ -534,15 +534,15 @@
                     const thumb = document.getElementById('video-thumbnail');
                     thumb.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'">`;
                     
-                    // WORKING EMBED: yt-mp3s.com (switch based on format)
-                    const type = selectedFormat === 'mp3' ? 'audiostreams' : 'videostreams';
+                    // WORKING EMBED: convert2mp3s.com
+                    const type = selectedFormat === 'mp3' ? 'mp3' : 'mp4';
+                    const fullUrl = `https://www.youtube.com/watch?v=${id}`;
                     const iframe = document.createElement('iframe');
-                    iframe.src = `https://yt-mp3s.com/@api/button/${type}/${id}`;
+                    iframe.src = `https://convert2mp3s.com/api/button/${type}?url=${encodeURIComponent(fullUrl)}`;
                     iframe.className = 'download-embed';
                     iframe.allowTransparency = true;
                     iframe.scrolling = 'no';
                     iframe.style.border = 'none';
-                    iframe.sandbox = 'allow-scripts allow-same-origin allow-popups';
                     downloadSection.appendChild(iframe);
                     
                     loading.style.display = 'none';
