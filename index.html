@@ -234,22 +234,6 @@
             margin-bottom: 15px;
         }
 
-        .video-stats {
-            display: flex;
-            gap: 25px;
-            margin-top: 20px;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .stat i {
-            color: var(--primary);
-        }
-
         .download-section {
             margin-top: 30px;
             text-align: center;
@@ -257,7 +241,7 @@
 
         .download-embed {
             width: 100%;
-            height: 300px;
+            height: 400px; /* Increased for better button display */
             border: none;
             background: var(--glass-bg);
             border-radius: 15px;
@@ -368,11 +352,6 @@
             .preview-content {
                 flex-direction: column;
                 text-align: center;
-            }
-            
-            .video-stats {
-                justify-content: center;
-                flex-wrap: wrap;
             }
             
             .logo h1 {
@@ -536,7 +515,7 @@
             
             async function fetchVideoInfo(id) {
                 try {
-                    // First try noembed for title
+                    // Fetch title and channel
                     let title = 'Unknown Title';
                     let channel = 'Unknown Channel';
                     try {
@@ -555,19 +534,21 @@
                     const thumb = document.getElementById('video-thumbnail');
                     thumb.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="Thumbnail" onerror="this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'">`;
                     
-                    // Embed vevioz download buttons
-                    const type = selectedFormat === 'mp3' ? 'mp3' : 'videos';
+                    // WORKING EMBED: yt-mp3s.com (switch based on format)
+                    const type = selectedFormat === 'mp3' ? 'audiostreams' : 'videostreams';
                     const iframe = document.createElement('iframe');
-                    iframe.src = `https://api.vevioz.com/api/button/${type}/${id}`;
+                    iframe.src = `https://yt-mp3s.com/@api/button/${type}/${id}`;
                     iframe.className = 'download-embed';
                     iframe.allowTransparency = true;
                     iframe.scrolling = 'no';
+                    iframe.style.border = 'none';
+                    iframe.sandbox = 'allow-scripts allow-same-origin allow-popups';
                     downloadSection.appendChild(iframe);
                     
                     loading.style.display = 'none';
                     previewSection.style.display = 'block';
                 } catch (err) {
-                    showError('Unable to process this video. Try another one.');
+                    showError('Unable to process this video. Try another one or refresh.');
                 }
             }
             
